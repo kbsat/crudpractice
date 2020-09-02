@@ -29,9 +29,17 @@ def create(request):
         return render(request, 'viewcrud/new.html', {'form': form})
 
 
-def update(request):
-    return
+def update(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+
+    form = NewBlog(request.POST, instance=blog)
+    if form.is_valid():
+        form.save()
+        return redirect('home')
+    return render(request, 'viewcrud/new.html', {'form': form})
 
 
-def update(request):
-    return
+def delete(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    blog.delete()
+    return redirect('home')
